@@ -1,18 +1,31 @@
 import { useEffect, useState } from 'react'
 
-import { IFilm } from '../models'
+import { IFilm, IFilmTransform } from '../models'
 
 export const MovieServices = function () {
-  const [films, setFilms] = useState<IFilm[]>([])
+  const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
   const [filmName, setFilmName] = useState('the way back')
 
-  function addFilms(film: IFilm): void {
+  function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
   }
 
   function searchFilm(name: string) {
     setFilmName(name)
+  }
+
+  const transformFilm = function (film: IFilm) {
+    return {
+      id: film.id,
+      title: film.title,
+      releaseDate: film.release_date,
+      overview: film.overview,
+      posterPath: film.poster_path,
+      genreList: film.genre_ids,
+      rating: film.vote_average,
+      popularity: film.popularity,
+    }
   }
 
   const fetchFilms = async function (query: string) {
@@ -30,8 +43,9 @@ export const MovieServices = function () {
       }
 
       const filmsList = await response.json()
+      const transformFilmsList = filmsList.results.map((film: IFilm) => transformFilm(film))
 
-      setFilms(filmsList.results)
+      setFilms(transformFilmsList)
     } catch (err: any) {
       setError(err.message)
     }
