@@ -1,12 +1,23 @@
-import { FilmProps } from '../../models'
+import { enGB } from 'date-fns/locale'
+import format from 'date-fns/format'
 
-export const Card = function ({ film }: FilmProps) {
-  const { title, release_date: releaseDate, overview } = film
+import { cutText } from '../../services/cutText'
+import { FilmProps } from '../../models'
+import './Card.css'
+
+export const Card = function ({ film }: FilmProps): JSX.Element {
+  const { title, release_date: releaseDate, overview, poster_path: posterPath } = film
+  const usrPoster = 'https://image.tmdb.org/t/p/original' + posterPath
+  const date = format(new Date(releaseDate), 'MMMM dd, yyyy', { locale: enGB })
+
   return (
-    <li>
-      <h2>{title}</h2>
-      <p>{releaseDate}</p>
-      <p>{overview}</p>
-    </li>
+    <div className="card">
+      <img src={usrPoster} alt="poster" width="180px" />
+      <div className="card__info">
+        <h3 className="card__title">{title}</h3>
+        <p className="card__date">{date}</p>
+        <p className="card__overview">{cutText(overview)}</p>
+      </div>
+    </div>
   )
 }

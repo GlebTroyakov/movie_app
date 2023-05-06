@@ -5,7 +5,7 @@ import { IFilm } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilm[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('return')
+  const [filmName, setFilmName] = useState('the way back')
 
   function addFilms(film: IFilm): void {
     setFilms((prev) => [...prev, film])
