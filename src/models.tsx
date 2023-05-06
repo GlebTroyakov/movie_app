@@ -26,4 +26,5 @@ export interface FilmProps {
 
 export interface FilmsProps {
   films: IFilmTransform[]
+  loading: boolean
 }

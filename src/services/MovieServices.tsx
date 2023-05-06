@@ -5,7 +5,7 @@ import { IFilm, IFilmTransform } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('people')
+  const [filmName, setFilmName] = useState('pen')
   const [loading, setLoading] = useState(true)
 
   function addFilms(film: IFilmTransform): void {

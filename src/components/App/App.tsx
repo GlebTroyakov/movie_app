@@ -1,7 +1,8 @@
-import { Layout, Spin, Typography } from 'antd'
+import { Layout, Typography } from 'antd'
 
 import { MovieServices } from '../../services/MovieServices'
 import { CardList } from '../CardList/CardList'
+import './App.css'
 
 const { Header, Content, Footer } = Layout
 const { Title } = Typography
@@ -17,15 +18,15 @@ export function App(): JSX.Element {
         </Title>
       </Header>
 
-      <Content className="header">
+      <Content className="content">
         <Title level={2} style={{ color: 'Red', textAlign: 'center', paddingTop: '10px' }}>
           Content
         </Title>
-        {loading && <Spin style={{ paddingTop: '30px', paddingLeft: '490px', scale: '2' }} />}
-        {<CardList films={films} />}
+        {/* {loading && <Spin style={{ paddingTop: '30px', paddingLeft: '490px', scale: '2' }} />} */}
+        {<CardList films={films} loading={loading} />}
       </Content>
 
-      <Footer className="header">
+      <Footer className="footer">
         <Title level={2} style={{ color: 'blue', textAlign: 'center', paddingTop: '10px' }}>
           Footer
         </Title>
