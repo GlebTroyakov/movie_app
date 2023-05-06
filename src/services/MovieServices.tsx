@@ -5,15 +5,11 @@ import { IFilm, IFilmTransform } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('pen')
+  const [filmName, setFilmName] = useState('coffee')
   const [loading, setLoading] = useState(true)
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
-  }
-
-  function searchFilm(name: string) {
-    setFilmName(name)
   }
 
   const transformFilm = function (film: IFilm) {
@@ -45,6 +41,10 @@ export const MovieServices = function () {
       }
 
       const filmsList = await response.json()
+
+      if (filmsList.results.length === 0) {
+        throw new Error('Film not found')
+      }
       const transformFilmsList = filmsList.results.map((film: IFilm) => transformFilm(film))
 
       setFilms(transformFilmsList)
@@ -52,6 +52,11 @@ export const MovieServices = function () {
     } catch (err: any) {
       setError(err.message)
     }
+  }
+
+  function searchFilm(name: string) {
+    setFilmName(name)
+    fetchFilms(filmName)
   }
 
   useEffect(() => {
