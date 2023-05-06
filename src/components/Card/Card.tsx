@@ -8,7 +8,10 @@ import './Card.css'
 export const Card = function ({ film }: FilmProps): JSX.Element {
   const { title, releaseDate, overview, posterPath } = film
   const usrPoster = 'https://image.tmdb.org/t/p/original' + posterPath
-  const date = format(new Date(releaseDate), 'MMMM dd, yyyy', { locale: enGB })
+  let date = 'Not date'
+  if (releaseDate) {
+    date = format(new Date(releaseDate.toString()), 'MMMM dd, yyyy', { locale: enGB })
+  }
 
   return (
     <div className="card">

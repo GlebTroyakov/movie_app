@@ -1,4 +1,4 @@
-import { Layout, Typography } from 'antd'
+import { Layout, Spin, Typography } from 'antd'
 
 import { MovieServices } from '../../services/MovieServices'
 import { CardList } from '../CardList/CardList'
@@ -7,7 +7,7 @@ const { Header, Content, Footer } = Layout
 const { Title } = Typography
 
 export function App(): JSX.Element {
-  const { films } = MovieServices()
+  const { films, loading } = MovieServices()
 
   return (
     <div>
@@ -21,7 +21,7 @@ export function App(): JSX.Element {
         <Title level={2} style={{ color: 'Red', textAlign: 'center', paddingTop: '10px' }}>
           Content
         </Title>
-
+        {loading && <Spin style={{ paddingTop: '30px', paddingLeft: '490px', scale: '2' }} />}
         {<CardList films={films} />}
       </Content>
 

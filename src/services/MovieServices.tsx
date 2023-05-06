@@ -5,7 +5,8 @@ import { IFilm, IFilmTransform } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('the way back')
+  const [filmName, setFilmName] = useState('people')
+  const [loading, setLoading] = useState(true)
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
@@ -35,6 +36,7 @@ export const MovieServices = function () {
     const urlFinished = `${urlBase}?api_key=${apiKey}&query=${queryUpdate}`
 
     try {
+      setLoading(true)
       setError('')
       const response = await fetch(urlFinished)
 
@@ -46,6 +48,7 @@ export const MovieServices = function () {
       const transformFilmsList = filmsList.results.map((film: IFilm) => transformFilm(film))
 
       setFilms(transformFilmsList)
+      setLoading(false)
     } catch (err: any) {
       setError(err.message)
     }
@@ -56,5 +59,5 @@ export const MovieServices = function () {
     // console.log("films im services", films);
   }, [filmName])
 
-  return { films, error, addFilms, searchFilm }
+  return { films, error, loading, addFilms, searchFilm }
 }
