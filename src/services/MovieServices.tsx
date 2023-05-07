@@ -5,7 +5,7 @@ import { IFilm, IFilmTransform } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('coffee')
+  const [filmName, setFilmName] = useState('run')
   const [loading, setLoading] = useState(true)
 
   function addFilms(film: IFilmTransform): void {
@@ -43,13 +43,16 @@ export const MovieServices = function () {
       const filmsList = await response.json()
 
       if (filmsList.results.length === 0) {
-        throw new Error('Film not found')
+        setFilms([])
+        setLoading(false)
+        throw new Error('Film not found. Please, try search another film :)')
       }
       const transformFilmsList = filmsList.results.map((film: IFilm) => transformFilm(film))
 
       setFilms(transformFilmsList)
       setLoading(false)
     } catch (err: any) {
+      setLoading(false)
       setError(err.message)
     }
   }
@@ -62,7 +65,7 @@ export const MovieServices = function () {
   useEffect(() => {
     fetchFilms(filmName)
     // console.log("films im services", films);
-  }, [filmName])
+  }, [])
 
   return { films, error, loading, addFilms, searchFilm }
 }
