@@ -12,7 +12,7 @@ const { Content } = Layout
 const { Title } = Typography
 
 export function App(): JSX.Element {
-  const { films, loading, error, searchFilm } = MovieServices()
+  const { films, loading, error, searchFilm, startFilmList } = MovieServices()
 
   return (
     <div>
@@ -20,7 +20,7 @@ export function App(): JSX.Element {
         <Title level={2} style={{ color: 'Red', textAlign: 'center', paddingTop: '10px' }}>
           Content
         </Title>
-        <SearchFilmForm searchFilm={searchFilm} />
+        <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} />
         <div>
           <Offline>
             <NotNetwork />

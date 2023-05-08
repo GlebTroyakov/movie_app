@@ -1,21 +1,20 @@
 import { Input } from 'antd'
-import { useState } from 'react'
+import { debounce } from 'lodash'
 
-export const SearchFilmForm = function ({ searchFilm }: { searchFilm: (name: string) => void }) {
-  const [filmName, setFilmName] = useState('')
-  console.log(searchFilm)
-
-  const onClickEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      searchFilm(filmName)
-      setFilmName('')
+export const SearchFilmForm = function ({
+  searchFilm,
+  startFilmList,
+}: {
+  searchFilm: (name: string) => void
+  startFilmList: () => void
+}) {
+  const changeFilmName = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      startFilmList()
+    } else {
+      searchFilm(event.target.value)
     }
-    return false
-  }
+  }, 500)
 
-  const changeFilmName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilmName(event.target.value)
-  }
-
-  return <Input placeholder="Basic usage" onChange={changeFilmName} onKeyDown={onClickEnter} value={filmName} />
+  return <Input placeholder="Basic usage" onChange={changeFilmName} />
 }
