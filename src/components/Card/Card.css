@@ -12,11 +12,11 @@
   padding-right: 35px;
 }
 
-.card__date {
+.film-info__date {
   color: #827e7e;
 }
 
-.card__title {
+.film-info__title {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
@@ -24,7 +24,7 @@
   line-height: 28px;
 }
 
-.card__overview {
+.film-info__overview {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;

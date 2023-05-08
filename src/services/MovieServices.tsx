@@ -5,8 +5,8 @@ import { IFilm, IFilmTransform } from '../models'
 export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
-  const [filmName, setFilmName] = useState('run')
   const [loading, setLoading] = useState(true)
+  const apiKey = '6d059294113790605b62a1d958ec8ba5'
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
@@ -25,16 +25,11 @@ export const MovieServices = function () {
     }
   }
 
-  const fetchFilms = async function (query: string) {
-    const urlBase = 'https://api.themoviedb.org/3/search/movie'
-    const apiKey = '6d059294113790605b62a1d958ec8ba5'
-    const queryUpdate = query.replace(' ', '+')
-    const urlFinished = `${urlBase}?api_key=${apiKey}&query=${queryUpdate}`
-
+  const fetchFilms = async function (url: string) {
     try {
       setLoading(true)
       setError('')
-      const response = await fetch(urlFinished)
+      const response = await fetch(url)
 
       if (!response.ok) {
         throw new Error('Could not fetch.')
@@ -58,13 +53,23 @@ export const MovieServices = function () {
   }
 
   function searchFilm(name: string) {
-    setFilmName(name)
-    fetchFilms(filmName)
+    const urlBase = 'https://api.themoviedb.org/3/search/movie'
+    const nameUpdate = name.replace(' ', '+')
+    const urlFinished = `${urlBase}?api_key=${apiKey}&query=${nameUpdate}`
+
+    fetchFilms(urlFinished)
+  }
+
+  function startFilmList() {
+    const urlBase =
+      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'
+    const urlPopularFilms = `${urlBase}&api_key=${apiKey}`
+
+    fetchFilms(urlPopularFilms)
   }
 
   useEffect(() => {
-    fetchFilms(filmName)
-    // console.log("films im services", films);
+    startFilmList()
   }, [])
 
   return { films, error, loading, addFilms, searchFilm }

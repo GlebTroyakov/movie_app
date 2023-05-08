@@ -19,11 +19,13 @@ export const Card = function ({ film }: FilmProps): JSX.Element {
 
   return (
     <div className="card">
-      <img src={usrPoster} alt="poster" width="180px" />
-      <div className="card__info">
-        <h3 className="card__title">{title}</h3>
-        <p className="card__date">{date}</p>
-        <p className="card__overview">{cutText(overview)}</p>
+      <div className="card__poster">
+        <img src={usrPoster} alt="poster" width="190px" height="280px" />
+      </div>
+      <div className="card__info film-info">
+        <h3 className="film-info__title">{title}</h3>
+        <p className="film-info__date">{date}</p>
+        <p className="film-info__overview">{cutText(overview)}</p>
       </div>
     </div>
   )
