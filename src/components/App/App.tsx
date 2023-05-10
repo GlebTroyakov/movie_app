@@ -16,16 +16,19 @@ export function App(): JSX.Element {
     MovieServices()
 
   return (
-    <div>
-      <Content className="content">
+    <div style={{ backgroundColor: '#E5E5E5' }}>
+      <Content
+        className="content"
+        style={{ width: '1000px', margin: '0 auto', padding: '36px', backgroundColor: '#FFFFFF' }}
+      >
         <Title level={2} style={{ color: 'Red', textAlign: 'center', paddingTop: '10px' }}>
           Content
         </Title>
         <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} setCurrentPage={setCurrentPage} />
-        <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
         <NotNetwork />
         <FilmNotFound textError={error} />
         <CardList films={films} loading={loading} />
+        <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
       </Content>
     </div>
   )

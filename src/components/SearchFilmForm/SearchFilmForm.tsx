@@ -20,5 +20,5 @@ export const SearchFilmForm = function ({
     }
   }, 500)
 
-  return <Input placeholder="Search film" onChange={changeFilmName} />
+  return <Input placeholder="Search film" onChange={changeFilmName} style={{ marginBottom: '36px' }} />
 }

@@ -21,8 +21,7 @@ export const CardList = ({ films, loading }: FilmsProps): JSX.Element => {
   }
 
   const styleRow: CSS.Properties = {
-    marginBottom: '15px',
-    width: '1000px',
+    marginBottom: '36px',
     marginLeft: 'auto',
     marginRight: 'auto',
   }
@@ -40,3 +39,4 @@ export const CardList = ({ films, loading }: FilmsProps): JSX.Element => {
     </>
   )
 }
+// {{lg: 32,}}

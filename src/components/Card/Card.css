@@ -1,19 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@700&display=swap');
 
 .card {
-  /* background: #0092ff; */
   height: 280px;
   display: flex;
   box-shadow: 1px 1px 10px grey;
 }
 
 .card__info {
-  padding-left: 15px;
-  padding-right: 35px;
+  padding: 8px 16px;
 }
 
 .film-info__date {
   color: #827e7e;
+  margin-bottom: 8px;
 }
 
 .film-info__title {
@@ -22,6 +21,7 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 28px;
+  margin: 0 0 8px 0;
 }
 
 .film-info__overview {

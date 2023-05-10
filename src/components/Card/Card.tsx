@@ -4,7 +4,6 @@ import format from 'date-fns/format'
 import { cutText } from '../../services/cutText'
 import { FilmProps } from '../../models'
 
-// import posterNotFound from './pnf.png'
 import './Card.css'
 
 export const Card = function ({ film }: FilmProps): JSX.Element {
