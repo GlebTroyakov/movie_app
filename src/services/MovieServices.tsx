@@ -93,9 +93,6 @@ export const MovieServices = function () {
 
   useEffect(() => {
     startFilmList()
-    // fetchFilms(
-    //   'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&currentPage=1&sort_by=popularity.desc&api_key=6d059294113790605b62a1d958ec8ba5'
-    // )
   }, [])
 
   return {
