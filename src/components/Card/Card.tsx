@@ -23,9 +23,9 @@ export const Card = function ({ film }: FilmProps): JSX.Element {
         <img src={usrPoster} alt="poster" width="190px" height="280px" />
       </div>
       <div className="card__info film-info">
-        <h3 className="film-info__title">{title}</h3>
+        <h3 className="film-info__title">{cutText(title, 34)}</h3>
         <p className="film-info__date">{date}</p>
-        <p className="film-info__overview">{cutText(overview)}</p>
+        <p className="film-info__overview">{cutText(overview, 210)}</p>
       </div>
     </div>
   )

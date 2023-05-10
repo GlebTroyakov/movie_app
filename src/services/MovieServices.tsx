@@ -6,6 +6,11 @@ export const MovieServices = function () {
   const [films, setFilms] = useState<IFilmTransform[]>([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
+  const [totalResults, setTotalResults] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [search, setSearch] = useState(false)
+  const [filmName, setFilmName] = useState('')
+
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
 
   function addFilms(film: IFilmTransform): void {
@@ -37,11 +42,14 @@ export const MovieServices = function () {
 
       const filmsList = await response.json()
 
-      if (filmsList.results.length === 0) {
+      if (filmsList.total_results === 0) {
         setFilms([])
         setLoading(false)
         throw new Error('Film not found. Please, try search another film :)')
       }
+
+      setTotalResults(filmsList.total_results)
+
       const transformFilmsList = filmsList.results.map((film: IFilm) => transformFilm(film))
 
       setFilms(transformFilmsList)
@@ -52,27 +60,55 @@ export const MovieServices = function () {
     }
   }
 
-  function searchFilm(name: string) {
+  function searchFilm(name: string, page: number = currentPage) {
     const urlBase = 'https://api.themoviedb.org/3/search/movie'
     const nameUpdate = name.replace(' ', '+')
-    const urlFinished = `${urlBase}?api_key=${apiKey}&query=${nameUpdate}`
+    const urlFinished = `${urlBase}?api_key=${apiKey}&language=en-US&page=${page}&include_adult=false&query=${nameUpdate}`
 
+    setSearch(true)
+    setFilmName(name)
     fetchFilms(urlFinished)
+    window.scrollTo(0, 0)
   }
 
-  function startFilmList() {
+  function startFilmList(page: number = currentPage) {
     const urlBase =
-      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc'
-    const urlPopularFilms = `${urlBase}&api_key=${apiKey}`
+      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc'
+    const urlPopularFilms = `${urlBase}&page=${page}&api_key=${apiKey}`
 
+    setSearch(false)
+    setFilmName('')
     fetchFilms(urlPopularFilms)
   }
 
+  function changePage(pageNumber: number) {
+    setCurrentPage(pageNumber)
+
+    if (search) {
+      searchFilm(filmName, pageNumber)
+    } else {
+      startFilmList(pageNumber)
+    }
+  }
+
   useEffect(() => {
-    fetchFilms(
-      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=6d059294113790605b62a1d958ec8ba5'
-    )
+    startFilmList()
+    // fetchFilms(
+    //   'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&currentPage=1&sort_by=popularity.desc&api_key=6d059294113790605b62a1d958ec8ba5'
+    // )
   }, [])
 
-  return { films, error, loading, addFilms, searchFilm, startFilmList }
+  return {
+    films,
+    error,
+    loading,
+    addFilms,
+    searchFilm,
+    startFilmList,
+    totalResults,
+    search,
+    currentPage,
+    changePage,
+    setCurrentPage,
+  }
 }

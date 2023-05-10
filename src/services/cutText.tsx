@@ -1,9 +1,9 @@
-export function cutText(text: string): string {
-  if (text.length <= 210) {
+export function cutText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) {
     return text
   }
 
-  let newText = text.slice(0, 210)
+  let newText = text.slice(0, maxLength)
   let index = newText.lastIndexOf(' ')
   return newText.slice(0, index) + '...'
 }
