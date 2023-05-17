@@ -17,7 +17,7 @@ export const Card = function ({ film }: FilmProps): JSX.Element {
   }
 
   return (
-    <div className="card">
+    <div className="films-cards__card card">
       <div className="card__poster">
         <img src={usrPoster} alt="poster" width="190px" height="280px" />
       </div>

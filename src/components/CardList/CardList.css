@@ -1,0 +1,15 @@
+.films-cards {
+  width: 930px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 36px;
+  margin-bottom: 36px;
+}
+
+.films-spin {
+  margin: 20px 0;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  text-align: center;
+}

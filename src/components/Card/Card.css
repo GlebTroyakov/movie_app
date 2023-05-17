@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@700&display=swap');
 
 .card {
+  width: 450px;
   height: 280px;
   display: flex;
   box-shadow: 1px 1px 10px grey;
