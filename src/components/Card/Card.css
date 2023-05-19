@@ -5,30 +5,11 @@
   height: 280px;
   display: flex;
   box-shadow: 1px 1px 10px grey;
-}
-
-.card__info {
-  padding: 8px 16px;
-}
-
-.film-info__date {
-  color: #827e7e;
-  margin-bottom: 8px;
-}
-
-.film-info__title {
   font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 28px;
-  margin: 0 0 8px 0;
 }
 
-.film-info__overview {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 22px;
+.card_text-info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 8px 8px 12px;
 }

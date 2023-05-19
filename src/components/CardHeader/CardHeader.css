@@ -1,0 +1,28 @@
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  padding: 0;
+  margin: 0;
+}
+
+.card-header__rating {
+  display: flex;
+  border: solid 3px;
+  border-radius: 30px;
+  min-width: 30px;
+  height: 30px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  align-self: flex-start;
+}
