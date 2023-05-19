@@ -28,3 +28,5 @@ export interface FilmsProps {
   films: IFilmTransform[]
   loading: boolean
 }
+
+export type ListGenresType = [] | { id: number; name: string }[]

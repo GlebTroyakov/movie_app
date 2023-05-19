@@ -19,7 +19,7 @@ export const CardHeader = function ({ title, rating }: { title: string; rating: 
     <div className="card-header">
       <h3 className="card-header__title">{cutText(title, 34)}</h3>
       <div className="card-header__rating" style={{ borderColor: colorCircle }}>
-        <span className="card-header__rating-number">{rating}</span>
+        <span className="card-header__rating-number">{rating.toFixed(1)}</span>
       </div>
     </div>
   )

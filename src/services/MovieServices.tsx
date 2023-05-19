@@ -12,6 +12,7 @@ export const MovieServices = function () {
   const [filmName, setFilmName] = useState('')
 
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
+  const urlBase = 'https://api.themoviedb.org/3'
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
@@ -61,9 +62,8 @@ export const MovieServices = function () {
   }
 
   function searchFilm(name: string, page: number = currentPage) {
-    const urlBase = 'https://api.themoviedb.org/3/search/movie'
     const nameUpdate = name.replace(' ', '+')
-    const urlFinished = `${urlBase}?api_key=${apiKey}&language=en-US&page=${page}&include_adult=false&query=${nameUpdate}`
+    const urlFinished = `${urlBase}/search/movie?api_key=${apiKey}&language=en-US&page=${page}&include_adult=false&query=${nameUpdate}`
 
     setSearch(true)
     setFilmName(name)
@@ -72,9 +72,9 @@ export const MovieServices = function () {
   }
 
   function startFilmList(page: number = currentPage) {
-    const urlBase =
-      'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc'
-    const urlPopularFilms = `${urlBase}&page=${page}&api_key=${apiKey}`
+    const popularFilmsParameters =
+      'discover/movie?include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc'
+    const urlPopularFilms = `${urlBase}/${popularFilmsParameters}&page=${page}&api_key=${apiKey}`
 
     setSearch(false)
     setFilmName('')
@@ -89,6 +89,21 @@ export const MovieServices = function () {
     } else {
       startFilmList(pageNumber)
     }
+  }
+
+  async function getGenres() {
+    const parameters = 'language=en-US'
+    const resource = 'genre/movie/list'
+    const url = `${urlBase}/${resource}?api_key=${apiKey}&${parameters}`
+    const res = await fetch(url)
+
+    if (!res.ok) {
+      throw new Error('Could not fetch.')
+    }
+
+    const { genres } = await res.json()
+
+    return genres //  [{ "id": 28, "name": "Action" }, { "id": 12,  "name": "Abenteuer"}...]
   }
 
   useEffect(() => {
@@ -107,5 +122,6 @@ export const MovieServices = function () {
     currentPage,
     changePage,
     setCurrentPage,
+    getGenres,
   }
 }
