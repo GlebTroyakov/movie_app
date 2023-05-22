@@ -15,5 +15,5 @@ export const CardMyRating = function ({
     changeMyRating(id, event)
   }
 
-  return <Rate count={10} onChange={(event) => onChange(event)} defaultValue={myRating} />
+  return <Rate count={10} onChange={(event) => onChange(event)} value={myRating} />
 }
