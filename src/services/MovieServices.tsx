@@ -10,9 +10,11 @@ export const MovieServices = function () {
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState(false)
   const [filmName, setFilmName] = useState('')
+  // const [ratedFilms, setRatedFilms] = useState<IFilmTransform[]>([])
 
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
   const urlBase = 'https://api.themoviedb.org/3'
+  const sessionId = localStorage.getItem('sessionId')
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
@@ -28,7 +30,7 @@ export const MovieServices = function () {
       genreList: film.genre_ids,
       rating: film.vote_average,
       popularity: film.popularity,
-      myRating: 0,
+      myRating: film.rating,
     }
   }
 
@@ -96,13 +98,13 @@ export const MovieServices = function () {
     const parameters = 'language=en-US'
     const resource = 'genre/movie/list'
     const url = `${urlBase}/${resource}?api_key=${apiKey}&${parameters}`
-    const res = await fetch(url)
+    const result = await fetch(url)
 
-    if (!res.ok) {
+    if (!result.ok) {
       throw new Error('Could not fetch.')
     }
 
-    const { genres } = await res.json()
+    const { genres } = await result.json()
 
     return genres //  [{ "id": 28, "name": "Action" }, { "id": 12,  "name": "Abenteuer"}...]
   }
@@ -124,8 +126,60 @@ export const MovieServices = function () {
     setFilms(newFilm)
   }
 
+  async function createGuestSession() {
+    const guestParameters = 'authentication/guest_session/new'
+    const url = `${urlBase}/${guestParameters}?api_key=${apiKey}`
+
+    const result = await fetch(url)
+
+    if (!result.ok) {
+      throw new Error('Could not fetch.')
+    }
+
+    const resultJson = await result.json()
+
+    localStorage.setItem('sessionId', resultJson.guest_session_id)
+  }
+
+  async function rateMovie(id: number, rating: number) {
+    const resource = `movie/${id}/rating`
+    const parameters = `&guest_session_id=${sessionId}`
+    const url = `${urlBase}/${resource}?api_key=${apiKey}${parameters}`
+
+    const result = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify({ value: rating }),
+    })
+
+    if (!result.ok) {
+      throw new Error('Could not fetch.')
+    }
+  }
+
+  async function getRateMovies(page: number) {
+    const parameters = `page=${page}&language=en-US&sort_by=created_at.asc`
+    const resource = `guest_session/${sessionId}/rated/movies`
+    const url = `${urlBase}/${resource}?api_key=${apiKey}&${parameters}`
+
+    const result = await fetch(url)
+
+    if (!result.ok) {
+      throw new Error('Could not fetch.')
+    }
+
+    const resultJson = await result.json()
+
+    // const transformFilmsList = resultJson.results.map((film: IFilm) => transformFilm(film))
+    // setRatedFilms(transformFilmsList)
+    return resultJson.results.map(transformFilm)
+  }
+
   useEffect(() => {
     startFilmList()
+    createGuestSession()
   }, [])
 
   return {
@@ -142,5 +196,9 @@ export const MovieServices = function () {
     setCurrentPage,
     getGenres,
     changeMyRating,
+    createGuestSession,
+    rateMovie,
+    getRateMovies,
+    // ratedFilms,
   }
 }

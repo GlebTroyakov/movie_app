@@ -1,4 +1,4 @@
-import { Layout, Typography } from 'antd'
+import { Button, Layout, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { MovieServices } from '../../services/MovieServices'
@@ -9,12 +9,13 @@ import { SearchFilmForm } from '../SearchFilmForm'
 import './App.css'
 import { MoviePagination } from '../MoviePagination'
 import { GenresContext } from '../GenreContext'
+import { IFilmTransform } from '../../models'
 
 const { Content } = Layout
-const { Title } = Typography
 
 export function App(): JSX.Element {
   const [genres, setGenres] = useState([])
+  const [rateFilms, setRateFilms] = useState<IFilmTransform[]>([])
 
   const {
     films,
@@ -28,6 +29,9 @@ export function App(): JSX.Element {
     setCurrentPage,
     getGenres,
     changeMyRating,
+    rateMovie,
+    getRateMovies,
+    // ratedFilms,
   } = MovieServices()
 
   async function updateGenres() {
@@ -39,21 +43,48 @@ export function App(): JSX.Element {
     updateGenres()
   }, [])
 
+  const searchTab = (
+    <>
+      <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} setCurrentPage={setCurrentPage} />
+      <NotNetwork />
+      <FilmNotFound textError={error} />
+      <CardList films={films} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+      <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
+    </>
+  )
+
+  async function getDivRatedFilms() {
+    const result = await getRateMovies(1)
+    // console.log('ratedFilms: ', ratedFilms)
+    console.log('rateFilms: ', rateFilms)
+    console.log('res: ', result)
+    setRateFilms(result)
+  }
+
+  const test = <CardList films={rateFilms} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+
+  const items = [
+    {
+      key: '1',
+      label: 'Search',
+      children: searchTab,
+    },
+    {
+      key: '2',
+      label: 'Rated',
+      children: test,
+    },
+  ]
+
   return (
     <div style={{ backgroundColor: '#E5E5E5' }}>
       <GenresContext.Provider value={genres}>
         <Content
           className="content"
-          style={{ width: '1000px', margin: '0 auto', padding: '36px', backgroundColor: '#FFFFFF' }}
+          style={{ width: '1000px', margin: '0 auto', padding: '0 36px 18px', backgroundColor: '#FFFFFF' }}
         >
-          <Title level={2} style={{ color: 'Red', textAlign: 'center', paddingTop: '10px' }}>
-            Content
-          </Title>
-          <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} setCurrentPage={setCurrentPage} />
-          <NotNetwork />
-          <FilmNotFound textError={error} />
-          <CardList films={films} loading={loading} changeMyRating={changeMyRating} />
-          <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
+          <Button onClick={getDivRatedFilms} />
+          <Tabs centered defaultActiveKey="1" items={items} size="large" />
         </Content>
       </GenresContext.Provider>
     </div>

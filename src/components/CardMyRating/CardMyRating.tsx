@@ -5,14 +5,17 @@ export const CardMyRating = function ({
   changeMyRating,
   id,
   myRating,
+  rateMovie,
 }: {
   changeMyRating: (id: number, newRating: number) => void
   id: number
   myRating: number
+  rateMovie: (id: number, newRating: number) => void
 }): JSX.Element {
   function onChange(event: number) {
     console.log(event, id)
     changeMyRating(id, event)
+    rateMovie(id, event)
   }
 
   return <Rate count={10} onChange={(event) => onChange(event)} value={myRating} />
