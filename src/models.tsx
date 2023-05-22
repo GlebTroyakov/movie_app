@@ -23,11 +23,13 @@ export interface IFilmTransform {
 
 export interface FilmProps {
   film: IFilmTransform
+  changeMyRating: (id: number, newRating: number) => void
 }
 
 export interface FilmsProps {
   films: IFilmTransform[]
   loading: boolean
+  changeMyRating: (id: number, newRating: number) => void
 }
 
 export type ListGenresType = [] | { id: number; name: string }[]

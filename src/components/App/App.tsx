@@ -27,6 +27,7 @@ export function App(): JSX.Element {
     changePage,
     setCurrentPage,
     getGenres,
+    changeMyRating,
   } = MovieServices()
 
   async function updateGenres() {
@@ -51,7 +52,7 @@ export function App(): JSX.Element {
           <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} setCurrentPage={setCurrentPage} />
           <NotNetwork />
           <FilmNotFound textError={error} />
-          <CardList films={films} loading={loading} />
+          <CardList films={films} loading={loading} changeMyRating={changeMyRating} />
           <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
         </Content>
       </GenresContext.Provider>

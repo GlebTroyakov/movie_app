@@ -107,6 +107,23 @@ export const MovieServices = function () {
     return genres //  [{ "id": 28, "name": "Action" }, { "id": 12,  "name": "Abenteuer"}...]
   }
 
+  function getIndexFilmById(id: number) {
+    const filmIndex = films.findIndex((film) => film.id === id)
+    return filmIndex
+  }
+
+  function changeMyRating(id: number, newRating: number) {
+    const index = getIndexFilmById(id)
+    const film = { ...films[index], myRating: newRating }
+
+    const before = films.slice(0, index)
+    const after = films.slice(index + 1)
+
+    const newFilm = [...before, film, ...after]
+
+    setFilms(newFilm)
+  }
+
   useEffect(() => {
     startFilmList()
   }, [])
@@ -124,5 +141,6 @@ export const MovieServices = function () {
     changePage,
     setCurrentPage,
     getGenres,
+    changeMyRating,
   }
 }
