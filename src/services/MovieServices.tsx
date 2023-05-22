@@ -28,6 +28,7 @@ export const MovieServices = function () {
       genreList: film.genre_ids,
       rating: film.vote_average,
       popularity: film.popularity,
+      myRating: 0,
     }
   }
 

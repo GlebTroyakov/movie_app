@@ -4,7 +4,7 @@
   width: 450px;
   height: 280px;
   display: flex;
-  box-shadow: 1px 1px 10px grey;
+  box-shadow: 1px 1px 10px rgb(196, 195, 195);
   font-family: 'Inter';
 }
 

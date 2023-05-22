@@ -18,6 +18,7 @@ export interface IFilmTransform {
   genreList: number[] | []
   rating: number
   popularity: number
+  myRating: number
 }
 
 export interface FilmProps {

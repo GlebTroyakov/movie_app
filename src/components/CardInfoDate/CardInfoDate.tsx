@@ -9,5 +9,9 @@ export const CardInfoDate = function ({ releaseDate }: { releaseDate: string }):
     date = format(new Date(releaseDate.toString()), 'MMMM dd, yyyy', { locale: enGB })
   }
 
-  return <span className="card-info__date">{date}</span>
+  return (
+    <div className="card-info__date">
+      <span className="card-info__date-text">{date}</span>
+    </div>
+  )
 }

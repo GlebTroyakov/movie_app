@@ -2,5 +2,9 @@ import { cutText } from '../../services/cutText'
 import './CardInfoOverview.css'
 
 export const CardInfoOverview = function ({ overview }: { overview: string }): JSX.Element {
-  return <span className="card-info__overview">{cutText(overview, 150)}</span>
+  return (
+    <div className="card-info__overview">
+      <span className="card-info__overview-text">{cutText(overview, 165)}</span>
+    </div>
+  )
 }
