@@ -1,4 +1,4 @@
-import { Layout, Spin, Tabs } from 'antd'
+import { Layout, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { MovieServices } from '../../services/MovieServices'
@@ -56,12 +56,8 @@ export function App(): JSX.Element {
 
   const ratedTab = (
     <>
-      {loadingRated && (
-        <div className="films-spin">
-          <Spin />
-        </div>
-      )}
-      <CardList films={ratedFilms} loading={loading} />
+      <NotNetwork />
+      <CardList films={ratedFilms} loading={loadingRated} />
       {totalRatedResults > 20 && (
         <MoviePagination totalResults={totalRatedResults} currentPage={currentRatedPage} changePage={changeRatedPage} />
       )}

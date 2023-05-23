@@ -44,6 +44,9 @@ export const MovieServices = function () {
       const response = await fetch(url)
 
       if (!response.ok) {
+        setFilms([])
+        setLoading(false)
+        setTotalResults(0)
         throw new Error('Could not fetch.')
       }
 
@@ -52,6 +55,7 @@ export const MovieServices = function () {
       if (filmsList.total_results === 0) {
         setFilms([])
         setLoading(false)
+        setTotalResults(0)
         throw new Error('Film not found. Please, try search another film :)')
       }
 
