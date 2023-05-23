@@ -5,9 +5,9 @@ import { Card } from '../Card'
 
 import './CardList.css'
 
-export const CardList = ({ films, loading, changeMyRating, rateMovie }: FilmsProps): JSX.Element => {
+export const CardList = ({ films, loading, rateMovie }: FilmsProps): JSX.Element => {
   const filmsList = films.map((film: IFilmTransform) => {
-    return <Card film={film} key={film.id} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+    return <Card film={film} key={film.id} rateMovie={rateMovie} />
   })
 
   return (

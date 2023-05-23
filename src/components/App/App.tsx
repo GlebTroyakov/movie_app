@@ -1,4 +1,4 @@
-import { Button, Layout, Spin, Tabs } from 'antd'
+import { Layout, Spin, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { MovieServices } from '../../services/MovieServices'
@@ -9,14 +9,11 @@ import { SearchFilmForm } from '../SearchFilmForm'
 import './App.css'
 import { MoviePagination } from '../MoviePagination'
 import { GenresContext } from '../GenreContext'
-import { IFilmTransform } from '../../models'
 
 const { Content } = Layout
 
 export function App(): JSX.Element {
   const [genres, setGenres] = useState([])
-  const [rateFilms, setRateFilms] = useState<IFilmTransform[]>([])
-  const [loadingRated, setLoadingRated] = useState(false)
 
   const {
     films,
@@ -29,10 +26,10 @@ export function App(): JSX.Element {
     changePage,
     setCurrentPage,
     getGenres,
-    changeMyRating,
     rateMovie,
     getRateMovies,
-    // ratedFilms,
+    ratedFilms,
+    loadingRated,
   } = MovieServices()
 
   async function updateGenres() {
@@ -49,23 +46,10 @@ export function App(): JSX.Element {
       <SearchFilmForm searchFilm={searchFilm} startFilmList={startFilmList} setCurrentPage={setCurrentPage} />
       <NotNetwork />
       <FilmNotFound textError={error} />
-      <CardList films={films} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+      <CardList films={films} loading={loading} rateMovie={rateMovie} />
       <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
     </>
   )
-
-  async function getDivRatedFilms() {
-    if (rateFilms.length === 0) {
-      setLoadingRated(true)
-    }
-
-    const result = await getRateMovies(1)
-    // console.log('ratedFilms: ', ratedFilms)
-    // console.log('rateFilms: ', rateFilms)
-    // console.log('res: ', result)
-    setRateFilms(result)
-    setLoadingRated(false)
-  }
 
   const test = (
     <>
@@ -74,7 +58,7 @@ export function App(): JSX.Element {
           <Spin />
         </div>
       )}
-      <CardList films={rateFilms} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+      <CardList films={ratedFilms} loading={loading} />
     </>
   )
 
@@ -98,7 +82,6 @@ export function App(): JSX.Element {
           className="content"
           style={{ width: '1000px', margin: '0 auto', padding: '0 36px 18px', backgroundColor: '#FFFFFF' }}
         >
-          <Button onClick={getDivRatedFilms} />
           <Tabs
             centered
             defaultActiveKey="1"
@@ -106,7 +89,7 @@ export function App(): JSX.Element {
             size="large"
             onTabClick={(key) => {
               if (key === '2') {
-                getDivRatedFilms()
+                getRateMovies(1)
               }
             }}
           />

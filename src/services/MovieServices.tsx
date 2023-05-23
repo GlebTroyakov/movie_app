@@ -10,7 +10,8 @@ export const MovieServices = function () {
   const [currentPage, setCurrentPage] = useState(1)
   const [search, setSearch] = useState(false)
   const [filmName, setFilmName] = useState('')
-  // const [ratedFilms, setRatedFilms] = useState<IFilmTransform[]>([])
+  const [ratedFilms, setRatedFilms] = useState<IFilmTransform[]>([])
+  const [loadingRated, setLoadingRated] = useState(false)
 
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
   const urlBase = 'https://api.themoviedb.org/3'
@@ -109,23 +110,6 @@ export const MovieServices = function () {
     return genres //  [{ "id": 28, "name": "Action" }, { "id": 12,  "name": "Abenteuer"}...]
   }
 
-  function getIndexFilmById(id: number) {
-    const filmIndex = films.findIndex((film) => film.id === id)
-    return filmIndex
-  }
-
-  function changeMyRating(id: number, newRating: number) {
-    const index = getIndexFilmById(id)
-    const film = { ...films[index], myRating: newRating }
-
-    const before = films.slice(0, index)
-    const after = films.slice(index + 1)
-
-    const newFilm = [...before, film, ...after]
-
-    setFilms(newFilm)
-  }
-
   async function createGuestSession() {
     const guestParameters = 'authentication/guest_session/new'
     const url = `${urlBase}/${guestParameters}?api_key=${apiKey}`
@@ -164,6 +148,9 @@ export const MovieServices = function () {
     const resource = `guest_session/${sessionId}/rated/movies`
     const url = `${urlBase}/${resource}?api_key=${apiKey}&${parameters}`
 
+    if (ratedFilms.length === 0) {
+      setLoadingRated(true)
+    }
     const result = await fetch(url)
 
     if (!result.ok) {
@@ -172,9 +159,9 @@ export const MovieServices = function () {
 
     const resultJson = await result.json()
 
-    // const transformFilmsList = resultJson.results.map((film: IFilm) => transformFilm(film))
-    // setRatedFilms(transformFilmsList)
-    return resultJson.results.map(transformFilm)
+    const transformFilmsList = resultJson.results.map((film: IFilm) => transformFilm(film))
+    setRatedFilms(transformFilmsList)
+    setLoadingRated(false)
   }
 
   useEffect(() => {
@@ -195,10 +182,10 @@ export const MovieServices = function () {
     changePage,
     setCurrentPage,
     getGenres,
-    changeMyRating,
     createGuestSession,
     rateMovie,
     getRateMovies,
-    // ratedFilms,
+    ratedFilms,
+    loadingRated,
   }
 }
