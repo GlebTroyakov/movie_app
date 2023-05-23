@@ -81,10 +81,7 @@ export function App(): JSX.Element {
   return (
     <div style={{ backgroundColor: '#E5E5E5' }}>
       <GenresContext.Provider value={genres}>
-        <Content
-          className="content"
-          style={{ width: '1000px', margin: '0 auto', padding: '0 36px 18px', backgroundColor: '#FFFFFF' }}
-        >
+        <Content className="content">
           <Tabs
             centered
             defaultActiveKey="1"

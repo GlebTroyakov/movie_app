@@ -1,1 +1,7 @@
-
+.content {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 0 36px 18px;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
