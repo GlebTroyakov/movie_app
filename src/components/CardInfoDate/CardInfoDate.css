@@ -7,3 +7,10 @@
   margin: 8px 0 0 0;
   padding: 0;
 }
+
+@media screen and (max-width: 420px) {
+  .card-info__date {
+    margin: 4px 0;
+    padding: 0;
+  }
+}

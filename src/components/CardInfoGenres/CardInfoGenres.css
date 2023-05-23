@@ -13,3 +13,9 @@
   border-radius: 4px;
   background-color: #fafafa;
 }
+
+/* @media screen and (max-width: 420px) {
+  .card-info__genres {
+    margin: 0;
+  }
+} */

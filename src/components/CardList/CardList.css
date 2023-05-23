@@ -13,3 +13,14 @@
   padding: 30px 50px;
   text-align: center;
 }
+
+@media screen and (max-width: 768px) {
+  .films-cards {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 36px;
+    margin-bottom: 36px;
+  }
+}
