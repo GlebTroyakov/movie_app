@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+.main-movie-app {
+  background-color: #e5e5e5;
+  min-width: 420px;
+}
+
 .content {
   width: 1000px;
   margin: 0 auto;

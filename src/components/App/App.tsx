@@ -78,7 +78,7 @@ export function App(): JSX.Element {
   ]
 
   return (
-    <div style={{ backgroundColor: '#E5E5E5' }}>
+    <div className="main-movie-app">
       <GenresContext.Provider value={genres}>
         <Content className="content">
           <Tabs
