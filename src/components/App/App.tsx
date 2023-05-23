@@ -51,7 +51,7 @@ export function App(): JSX.Element {
     </>
   )
 
-  const test = (
+  const ratedTab = (
     <>
       {loadingRated && (
         <div className="films-spin">
@@ -59,6 +59,9 @@ export function App(): JSX.Element {
         </div>
       )}
       <CardList films={ratedFilms} loading={loading} />
+      {ratedFilms.length > 20 && (
+        <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
+      )}
     </>
   )
 
@@ -71,7 +74,7 @@ export function App(): JSX.Element {
     {
       key: '2',
       label: 'Rated',
-      children: test,
+      children: ratedTab,
     },
   ]
 
