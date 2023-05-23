@@ -1,4 +1,4 @@
-import { Button, Layout, Tabs } from 'antd'
+import { Button, Layout, Spin, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 
 import { MovieServices } from '../../services/MovieServices'
@@ -16,6 +16,7 @@ const { Content } = Layout
 export function App(): JSX.Element {
   const [genres, setGenres] = useState([])
   const [rateFilms, setRateFilms] = useState<IFilmTransform[]>([])
+  const [loadingRated, setLoadingRated] = useState(false)
 
   const {
     films,
@@ -54,14 +55,28 @@ export function App(): JSX.Element {
   )
 
   async function getDivRatedFilms() {
+    if (rateFilms.length === 0) {
+      setLoadingRated(true)
+    }
+
     const result = await getRateMovies(1)
     // console.log('ratedFilms: ', ratedFilms)
-    console.log('rateFilms: ', rateFilms)
-    console.log('res: ', result)
+    // console.log('rateFilms: ', rateFilms)
+    // console.log('res: ', result)
     setRateFilms(result)
+    setLoadingRated(false)
   }
 
-  const test = <CardList films={rateFilms} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+  const test = (
+    <>
+      {loadingRated && (
+        <div className="films-spin">
+          <Spin />
+        </div>
+      )}
+      <CardList films={rateFilms} loading={loading} changeMyRating={changeMyRating} rateMovie={rateMovie} />
+    </>
+  )
 
   const items = [
     {
@@ -84,7 +99,17 @@ export function App(): JSX.Element {
           style={{ width: '1000px', margin: '0 auto', padding: '0 36px 18px', backgroundColor: '#FFFFFF' }}
         >
           <Button onClick={getDivRatedFilms} />
-          <Tabs centered defaultActiveKey="1" items={items} size="large" />
+          <Tabs
+            centered
+            defaultActiveKey="1"
+            items={items}
+            size="large"
+            onTabClick={(key) => {
+              if (key === '2') {
+                getDivRatedFilms()
+              }
+            }}
+          />
         </Content>
       </GenresContext.Provider>
     </div>
