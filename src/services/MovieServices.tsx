@@ -12,6 +12,8 @@ export const MovieServices = function () {
   const [filmName, setFilmName] = useState('')
   const [ratedFilms, setRatedFilms] = useState<IFilmTransform[]>([])
   const [loadingRated, setLoadingRated] = useState(false)
+  const [totalRatedResults, setTotalRatedResults] = useState(0)
+  const [currentRatedPage, setCurrentRatedPage] = useState(1)
 
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
   const urlBase = 'https://api.themoviedb.org/3'
@@ -159,9 +161,17 @@ export const MovieServices = function () {
 
     const resultJson = await result.json()
 
+    setTotalRatedResults(resultJson.total_results)
+
     const transformFilmsList = resultJson.results.map((film: IFilm) => transformFilm(film))
     setRatedFilms(transformFilmsList)
     setLoadingRated(false)
+  }
+
+  function changeRatedPage(pageNumber: number) {
+    setCurrentRatedPage(pageNumber)
+
+    getRateMovies(pageNumber)
   }
 
   useEffect(() => {
@@ -187,5 +197,8 @@ export const MovieServices = function () {
     getRateMovies,
     ratedFilms,
     loadingRated,
+    totalRatedResults,
+    currentRatedPage,
+    changeRatedPage,
   }
 }

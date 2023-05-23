@@ -30,6 +30,9 @@ export function App(): JSX.Element {
     getRateMovies,
     ratedFilms,
     loadingRated,
+    totalRatedResults,
+    currentRatedPage,
+    changeRatedPage,
   } = MovieServices()
 
   async function updateGenres() {
@@ -59,8 +62,8 @@ export function App(): JSX.Element {
         </div>
       )}
       <CardList films={ratedFilms} loading={loading} />
-      {ratedFilms.length > 20 && (
-        <MoviePagination totalResults={totalResults} currentPage={currentPage} changePage={changePage} />
+      {totalRatedResults > 20 && (
+        <MoviePagination totalResults={totalRatedResults} currentPage={currentRatedPage} changePage={changeRatedPage} />
       )}
     </>
   )
@@ -89,7 +92,7 @@ export function App(): JSX.Element {
             size="large"
             onTabClick={(key) => {
               if (key === '2') {
-                getRateMovies(1)
+                getRateMovies(currentRatedPage)
               }
             }}
           />
