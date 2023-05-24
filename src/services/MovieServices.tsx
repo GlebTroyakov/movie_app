@@ -18,6 +18,7 @@ export const MovieServices = function () {
   const apiKey = '6d059294113790605b62a1d958ec8ba5'
   const urlBase = 'https://api.themoviedb.org/3'
   const sessionId = localStorage.getItem('sessionId')
+  console.log(sessionId)
 
   function addFilms(film: IFilmTransform): void {
     setFilms((prev) => [...prev, film])
@@ -180,7 +181,12 @@ export const MovieServices = function () {
 
   useEffect(() => {
     startFilmList()
-    createGuestSession()
+  }, [])
+
+  useEffect(() => {
+    if (!localStorage.getItem('sessionId')) {
+      createGuestSession()
+    }
   }, [])
 
   return {
